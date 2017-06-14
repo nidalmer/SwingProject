@@ -16,12 +16,16 @@ public class SqlConnection {
 	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=? AND employee.departement=departement.id;";
 	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=? AND project.departement=departement.id;";
 	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee) VALUES (?, ?, ?, ?, ?)";
+	private final String SQL_UPDATEPROJECT = "UPDATE project SET name=?, description=?, duration=?, budget=?, departement=?, chef=? WHERE id=?";
+	private final String SQL_DELETEPROJECT = "DELETE FROM project WHERE id=?";
 	public Connection connection;
 	private PreparedStatement statement;
 	private PreparedStatement addProject_statement;
 	private PreparedStatement fetchEmp_statement;
 	private PreparedStatement fetchPro_statement;
 	private PreparedStatement addTask_statement;
+	private PreparedStatement updateProject_statement;
+	private PreparedStatement deleteProject_statement;
 	
 	public  SqlConnection() {
 		try {
@@ -81,8 +85,8 @@ public class SqlConnection {
 			addProject_statement.setString(2, description);
 			addProject_statement.setString(3, duration);
 			addProject_statement.setString(4, budget);
-			addProject_statement.setInt(5, chef);
-			addProject_statement.setInt(6, departement);
+			addProject_statement.setInt(5, departement);
+			addProject_statement.setInt(6, chef);
 			
 			int res = addProject_statement.executeUpdate();
 			if ( res != 0 ) {
@@ -162,6 +166,46 @@ public class SqlConnection {
 			int res = addTask_statement.executeUpdate();
 			if ( res != 0 ) {
 				addTask_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean updateProject(String name, String description, String duration, String budget, int chef, int departement, int id) {
+		try {
+			updateProject_statement = connection.prepareStatement(SQL_UPDATEPROJECT);
+			updateProject_statement.setString(1, name);
+			updateProject_statement.setString(2, description);
+			updateProject_statement.setString(3, duration);
+			updateProject_statement.setString(4, budget);
+			updateProject_statement.setInt(5, departement);
+			updateProject_statement.setInt(6, chef);
+			updateProject_statement.setInt(7, id);
+			
+			int res = updateProject_statement.executeUpdate();
+			if ( res != 0 ) {
+				updateProject_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean deleteProject(int id) {
+		try {
+			deleteProject_statement = connection.prepareStatement(SQL_DELETEPROJECT);
+			deleteProject_statement.setInt(1, id);
+			
+			int res = deleteProject_statement.executeUpdate();
+			if ( res != 0 ) {
+				deleteProject_statement.close();
 				return true;
 			} 
 		} catch (Exception e) {

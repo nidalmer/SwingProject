@@ -14,4 +14,22 @@ public class Departement {
 	public Departement(int depId) {
 		Departement.depId = depId;
 	}
+	
+	public static boolean proAlreadyExists(String name, int departement) {
+		for(Project p: projects) {
+			if (p.name.equals(name) && p.departementId == departement) {
+				return true;
+			}
+		}
+		return false;
+	}	
+	
+	public static boolean empAlreadyExists(String username, int departement) {
+		for(Employee e: employees) {
+			if (e.username.equals(username) && e.departementId == departement) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

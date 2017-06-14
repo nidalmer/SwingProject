@@ -127,7 +127,7 @@ public class allPro {
 		frame.getContentPane().add(panel_2);
 		
 		JButton back_button = new JButton("Back");
-		back_button.setBounds(265, 408, 75, 28);
+		back_button.setBounds(558, 406, 75, 28);
 		panel.add(back_button);
 		back_button.setBackground(new Color(135, 206, 235));
 		back_button.setForeground(new Color(0, 0, 0));
@@ -155,7 +155,12 @@ public class allPro {
 		    }
 		}; 
 		
-
+		JTextField idField = new JTextField(15);
+		idField.setBounds(160, 171, 199, 59);
+		panel.add(idField);
+		idField.setForeground(new Color(0, 0, 0));
+		idField.setColumns(10);
+		idField.setVisible(false);
 	    
 		JTextField descField = new JTextField(15);
 		descField.setBounds(160, 171, 199, 59);
@@ -241,6 +246,7 @@ public class allPro {
 						budgetField.setText(p.budget);
 						chefField.setText(p.getChefName());
 						departementField.setText(p.departement);
+						idField.setText(String.valueOf(p.proId).toString());
 					}
 				}
 			}
@@ -265,7 +271,8 @@ public class allPro {
 		    table.getColumnModel().getColumn(i).setCellRenderer(colouringTable);
 	    }
 	    
-		JButton save_button = new JButton("Save");
+		JButton save_button = new JButton("New");
+		save_button.setIcon(null);
 		save_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
@@ -274,20 +281,24 @@ public class allPro {
 				String budget = budgetField.getText();
 				int chef = User.userId;
 				int departement = User.departementId;
-				if(name != null && duration != null) {
-					if ( dao.addProject(name, description, duration, budget, chef, departement) ) {
+				if(!name.isEmpty() && !duration.isEmpty()) {
+					if (!Departement.proAlreadyExists(name, departement)) {
+						dao.addProject(name, description, duration, budget, chef, departement); 
 						JOptionPane.showMessageDialog(null, "Project " + name + " created successfully!");
-						MainMenu menu = new MainMenu();
-						menu.setVisible(true);
+						dao.fetchPro(departement);
+						allPro pro = new allPro();
+						pro.frame.setVisible(true);
 						frame.dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "Please fill in the form correctly!");
-					}
-					return;
+						JOptionPane.showMessageDialog(null, "Project already exists please press Update!");
+					} 
+				} else {
+					JOptionPane.showMessageDialog(null, "Please fill in the form correctly!");
 				}
+				return;
 			}
 		});
-		save_button.setBounds(437, 407, 75, 28);
+		save_button.setBounds(70, 399, 120, 45);
 		panel.add(save_button);
 		save_button.setBackground(new Color(135, 206, 235));
 		save_button.setForeground(new Color(0, 0, 0));
@@ -309,5 +320,61 @@ public class allPro {
 		clear_button.setBackground(new Color(135, 206, 235));
 		clear_button.setBounds(352, 408, 75, 28);
 		panel.add(clear_button);
+		
+		JButton update_button = new JButton("Update");
+		update_button.setIcon(null);
+		update_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = nameField.getText();
+				String description = descField.getText();
+				String duration = durationField.getText();
+				String budget = budgetField.getText();
+				int chef = User.userId;
+				int departement = User.departementId;
+				int id = Integer.parseInt(idField.getText());
+				if(!name.isEmpty() && !duration.isEmpty()) {
+					dao.updateProject(name, description, duration, budget, chef, departement, id); 
+					JOptionPane.showMessageDialog(null, "Project " + name + " updated successfully!");
+					dao.fetchPro(departement);
+					allPro pro = new allPro();
+					pro.frame.setVisible(true);
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Please fill in the form correctly!");
+				}
+				return;
+			}
+		});
+		update_button.setForeground(Color.BLACK);
+		update_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		update_button.setFocusPainted(false);
+		update_button.setBackground(new Color(135, 206, 235));
+		update_button.setBounds(200, 400, 120, 45);
+		panel.add(update_button);
+		
+		JButton delete_button = new JButton("Delete");
+		delete_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = nameField.getText();
+				int departement = User.departementId;
+				int id = Integer.parseInt(idField.getText());
+				int action = JOptionPane.showConfirmDialog(null, "Do you really want to delete project " + name + "?");
+				if (action == 0) {
+					dao.deleteProject(id); 
+					JOptionPane.showMessageDialog(null, "Project " + name + " updated successfully!");
+					dao.fetchPro(departement);
+					allPro pro = new allPro();
+					pro.frame.setVisible(true);
+					frame.dispose();
+				}
+				return;
+			}
+		});
+		delete_button.setForeground(Color.BLACK);
+		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		delete_button.setFocusPainted(false);
+		delete_button.setBackground(new Color(135, 206, 235));
+		delete_button.setBounds(454, 407, 75, 28);
+		panel.add(delete_button);
 	}
 }
