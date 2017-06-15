@@ -6,6 +6,7 @@ import javax.swing.*;
 import departement.*;
 import login.*;
 import project.*;
+import task.Task;
 import employee.*;
 
 public class SqlConnection {
@@ -15,6 +16,7 @@ public class SqlConnection {
 	private final String SQL_ADDPROJECT = "INSERT INTO project (name, description, duration, budget, departement, chef) VALUES (?, ?, ?, ?, ?, ?)";
 	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=? AND employee.departement=departement.id;";
 	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=? AND project.departement=departement.id;";
+	private final String SQL_TASKOFDEP = "SELECT * FROM task JOIN departement JOIN employee JOIN project WHERE employee.departement=departement.id AND employee.id=task.employee AND task.project = project.id AND departement.id=?;";
 	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee) VALUES (?, ?, ?, ?, ?)";
 	private final String SQL_UPDATEPROJECT = "UPDATE project SET name=?, description=?, duration=?, budget=?, departement=?, chef=? WHERE id=?";
 	private final String SQL_DELETEPROJECT = "DELETE FROM project WHERE id=?";
@@ -23,6 +25,7 @@ public class SqlConnection {
 	private PreparedStatement addProject_statement;
 	private PreparedStatement fetchEmp_statement;
 	private PreparedStatement fetchPro_statement;
+	private PreparedStatement fetchTask_statement;
 	private PreparedStatement addTask_statement;
 	private PreparedStatement updateProject_statement;
 	private PreparedStatement deleteProject_statement;
@@ -112,6 +115,27 @@ public class SqlConnection {
 				list.add(e);
 			}
 			Departement.employees = list;
+			if (res.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return false;				
+	}
+	
+	public boolean fetchTask (int departement) {
+		try {
+			fetchTask_statement = connection.prepareStatement(SQL_TASKOFDEP);
+			fetchTask_statement.setInt(1, departement);
+			ResultSet res = fetchTask_statement.executeQuery();
+			ArrayList<Task> list = new ArrayList<Task>();
+			Departement.depId = departement;
+			while (res.next()){
+				Task t = new Task(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6),  res.getString(7), res.getInt(9), res.getString(13), res.getInt(10), res.getString(11), res.getInt(18), res.getString(19));
+				list.add(t);
+			}
+			Departement.tasks = list;
 			if (res.next()) {
 				return true;
 			}

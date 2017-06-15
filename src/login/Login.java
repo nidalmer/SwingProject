@@ -85,6 +85,7 @@ public class Login {
 					if ( dao.login(username, password) ) {
 						dao.fetchEmp(User.departementId);
 						dao.fetchPro(User.departementId);
+						dao.fetchTask(User.departementId);
 						JOptionPane.showMessageDialog(null, "Logged in successfully " + username);
 						MainMenu menu = new MainMenu();
 						menu.setVisible(true);

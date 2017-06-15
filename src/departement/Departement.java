@@ -3,6 +3,7 @@ package departement;
 import java.util.ArrayList;
 
 import project.*;
+import task.Task;
 import employee.*;
 
 public class Departement {
@@ -10,6 +11,7 @@ public class Departement {
 	public static int depId;
 	public static ArrayList<Employee> employees;
 	public static ArrayList<Project> projects;
+	public static ArrayList<Task> tasks;
 	
 	public Departement(int depId) {
 		Departement.depId = depId;

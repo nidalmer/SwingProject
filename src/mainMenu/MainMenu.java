@@ -115,6 +115,16 @@ public class MainMenu extends JFrame {
 		});
 		panel_2.add(btnAllPro);
 		
+		JButton btnAllTasks = new JButton("Display all tasks");
+		btnAllTasks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allTasks taskT = new allTasks();
+				taskT.frame.setVisible(true);
+				dispose();
+			}
+		});
+		panel_2.add(btnAllTasks);
+		
 		JLabel lblName = new JLabel("Name : ");
 		lblName.setForeground(new Color(0, 0, 0));
 		lblName.setBounds(10, 9, 46, 14);
