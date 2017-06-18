@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import com.toedter.calendar.JDateChooser;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -141,7 +143,8 @@ public class addTask {
 		lblduration.setBounds(10, 195, 154, 17);
 		panel.add(lblduration);
 		
-		JTextField dateField = new JTextField(10);
+		JDateChooser dateField = new JDateChooser();
+		dateField.setDateFormatString("dd/MM/yyyy");
 		dateField.setForeground(Color.BLACK);
 		dateField.setBounds(174, 165, 200, 20);
 		panel.add(dateField);
@@ -233,5 +236,6 @@ public class addTask {
 		lblcomment.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblcomment.setBounds(10, 255, 154, 17);
 		panel.add(lblcomment);
+		
 	}
 }

@@ -1,4 +1,5 @@
-package employee;
+package task;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -6,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.*;
 
-public class CustomRender extends DefaultTableCellRenderer {
+public class CustomTaskRenderer extends DefaultTableCellRenderer {
     /**
 	 * 
 	 */
@@ -24,14 +25,18 @@ public class CustomRender extends DefaultTableCellRenderer {
             cellComponent.setBackground(desiredColors.get(i));
         }
 
-        boolean pos = (boolean)table.getModel().getValueAt(row, 3);
+        String stat = (String)table.getModel().getValueAt(row, 7);
         if (isSelected)
         	cellComponent.setBackground( table.getSelectionBackground() );
-		else if (pos) {
-			cellComponent.setBackground(Color.RED);
-        } else {
-		    setBackground( table.getBackground() );
-        }
+		else if (stat.equals("Unapproved"))
+			cellComponent.setBackground(new Color(255, 204, 204)); 
+		else if (stat.equals("Approved"))
+			cellComponent.setBackground(new Color(214, 245, 214)); 
+		else if (stat.equals("Waiting"))
+			cellComponent.setBackground(new Color(255, 255, 153)); 
+		else
+			cellComponent.setBackground(new Color(204, 204, 255)); 
+		
         return cellComponent;
     }
 }

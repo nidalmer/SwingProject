@@ -34,4 +34,22 @@ public class Departement {
 		}
 		return false;
 	}
+	
+	public static int proHasId(String name) {
+		for(Project p: projects) {
+			if (p.name.equals(name)) {
+				return p.proId;
+			}
+		}
+		return -1;
+	}
+	
+	public static int empHasId(String name) {
+		for(Employee e: employees) {
+			if (e.username.equals(name)) {
+				return e.userId;
+			}
+		}
+		return 0;
+	}
 }

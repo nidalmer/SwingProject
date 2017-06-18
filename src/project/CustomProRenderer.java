@@ -1,12 +1,11 @@
-package employee;
-
+package project;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import java.awt.*;
 import java.util.*;
 
-public class CustomRender extends DefaultTableCellRenderer {
+public class CustomProRenderer extends DefaultTableCellRenderer {
     /**
 	 * 
 	 */
@@ -23,15 +22,11 @@ public class CustomRender extends DefaultTableCellRenderer {
         for (int i = 0; i < desiredColors.size(); i++) {
             cellComponent.setBackground(desiredColors.get(i));
         }
-
-        boolean pos = (boolean)table.getModel().getValueAt(row, 3);
+        
         if (isSelected)
-        	cellComponent.setBackground( table.getSelectionBackground() );
-		else if (pos) {
-			cellComponent.setBackground(Color.RED);
-        } else {
-		    setBackground( table.getBackground() );
-        }
+        	cellComponent.setBackground(table.getSelectionBackground());
+		else 
+			cellComponent.setBackground(table.getBackground());
         return cellComponent;
     }
 }

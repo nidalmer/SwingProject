@@ -136,21 +136,7 @@ public class allEmp {
 			}
 		});
 		
-		CustomRender colouringTable = new CustomRender() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-	
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if (isSelected)
-					setBackground( table.getSelectionBackground() );
-				else
-				    setBackground( table.getBackground() );
-				return this;
-			}
-		};
+		CustomRender colouringTable = new CustomRender();
 
 		DefaultTableModel model = new DefaultTableModel(){
 		    /**
@@ -177,13 +163,10 @@ public class allEmp {
 	    model.addColumn("ID"); 
 	    model.addColumn("Username"); 
 	    model.addColumn("Departement"); 
+	    model.addColumn("Chef");
+	    table.removeColumn( table.getColumnModel().getColumn(3) );
 	    for (Employee e: Departement.employees) {
-		    model.addRow(new Object[]{String.valueOf(e.userId), e.username, e.departement});
-	    	if (e.chef) {
-	            colouringTable.setColors(Color.WHITE); 
-	    	} else {
-	            colouringTable.setColors(new Color(135, 206, 235)); 
-	    	}
+		    model.addRow(new Object[]{String.valueOf(e.userId), e.username, e.departement, e.chef});
 	    }
 	    
 	    for (int i = 0; i < table.getColumnCount(); i++) {

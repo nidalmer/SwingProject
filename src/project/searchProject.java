@@ -214,7 +214,6 @@ public class searchProject {
 				String searchName = searchField.getText();
 				for (Project p : Departement.projects) {
 					if(p.name.equals(searchName)) {
-						System.out.println(p.name);
 						nameField.setText(p.name);
 						descField.setText(p.description);
 						durationField.setText(p.duration);

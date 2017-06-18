@@ -3,12 +3,13 @@ package project;
 import mainMenu.*;
 import departement.*;
 import login.*;
-import employee.*;
 import database.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.components.JSpinField;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -142,7 +143,7 @@ public class allPro {
 			}
 		});
 		
-		CustomRender colouringTable = new CustomRender();
+		CustomProRenderer colouringTable = new CustomProRenderer();
 
 		DefaultTableModel model = new DefaultTableModel(){
 		    /**
@@ -186,7 +187,7 @@ public class allPro {
 		lbldescription.setHorizontalAlignment(SwingConstants.TRAILING);
 		lbldescription.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		
-		JTextField durationField = new JTextField(10);
+		JSpinField durationField = new JSpinField();
 		durationField.setForeground(Color.BLACK);
 		durationField.setBounds(160, 241, 199, 20);
 		panel.add(durationField);
@@ -242,7 +243,7 @@ public class allPro {
 					if (p.proId == selectedId) {
 						descField.setText(p.description);
 						nameField.setText(p.name);
-						durationField.setText(p.duration);
+						durationField.setValue(Integer.parseInt(p.duration));
 						budgetField.setText(p.budget);
 						chefField.setText(p.getChefName());
 						departementField.setText(p.departement);
@@ -277,7 +278,7 @@ public class allPro {
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
 				String description = descField.getText();
-				String duration = durationField.getText();
+				String duration = String.valueOf((Integer)durationField.getValue()).toString();
 				String budget = budgetField.getText();
 				int chef = User.userId;
 				int departement = User.departementId;
@@ -310,7 +311,7 @@ public class allPro {
 			public void actionPerformed(ActionEvent arg0) {
 				nameField.setText("");
 				descField.setText("");
-				durationField.setText("");
+				durationField.setValue(new Integer(0));
 				budgetField.setText("");
 			}
 		});
@@ -325,9 +326,10 @@ public class allPro {
 		update_button.setIcon(null);
 		update_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String name = nameField.getText();
 				String description = descField.getText();
-				String duration = durationField.getText();
+				String duration = String.valueOf((Integer)durationField.getValue()).toString();
 				String budget = budgetField.getText();
 				int chef = User.userId;
 				int departement = User.departementId;
@@ -361,7 +363,7 @@ public class allPro {
 				int action = JOptionPane.showConfirmDialog(null, "Do you really want to delete project " + name + "?");
 				if (action == 0) {
 					dao.deleteProject(id); 
-					JOptionPane.showMessageDialog(null, "Project " + name + " updated successfully!");
+					JOptionPane.showMessageDialog(null, "Project " + name + " deleted successfully!");
 					dao.fetchPro(departement);
 					allPro pro = new allPro();
 					pro.frame.setVisible(true);

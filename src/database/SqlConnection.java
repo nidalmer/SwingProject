@@ -17,7 +17,10 @@ public class SqlConnection {
 	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=? AND employee.departement=departement.id;";
 	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=? AND project.departement=departement.id;";
 	private final String SQL_TASKOFDEP = "SELECT * FROM task JOIN departement JOIN employee JOIN project WHERE employee.departement=departement.id AND employee.id=task.employee AND task.project = project.id AND departement.id=?;";
-	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee) VALUES (?, ?, ?, ?, ?)";
+	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee, status) VALUES (?, ?, ?, ?, ?, ?)";
+	private final String SQL_UPDATETASK = "UPDATE task SET description=?, final_date=?, duration=?, project=?, employee=? WHERE id=?";
+	private final String SQL_DELETETASK = "DELETE FROM task WHERE id=?";
+	private final String SQL_UPDATETASK2 = "UPDATE task SET status=?, comment_nature=?, commentary=? WHERE id=?";
 	private final String SQL_UPDATEPROJECT = "UPDATE project SET name=?, description=?, duration=?, budget=?, departement=?, chef=? WHERE id=?";
 	private final String SQL_DELETEPROJECT = "DELETE FROM project WHERE id=?";
 	public Connection connection;
@@ -27,6 +30,9 @@ public class SqlConnection {
 	private PreparedStatement fetchPro_statement;
 	private PreparedStatement fetchTask_statement;
 	private PreparedStatement addTask_statement;
+	private PreparedStatement deleteTask_statement;
+	private PreparedStatement updateTask_statement;
+	private PreparedStatement updateTask2_statement;
 	private PreparedStatement updateProject_statement;
 	private PreparedStatement deleteProject_statement;
 	
@@ -98,7 +104,6 @@ public class SqlConnection {
 			} 
 		} catch (Exception e) {
 			 JOptionPane.showMessageDialog(null, e.getMessage());
-			 e.printStackTrace(System.out);
 		}
 		return false;				
 	}
@@ -111,7 +116,7 @@ public class SqlConnection {
 			ArrayList<Employee> list = new ArrayList<Employee>();
 			Departement.depId = departement;
 			while (res.next()){
-				Employee e = new Employee(res.getInt(1), res.getString(2), (res.getInt(4) != 0), (res.getInt(5) != 0), res.getInt(6), res.getString(8) );
+				Employee e = new Employee(res.getInt(1), res.getString(2), (res.getInt(4) != 1), (res.getInt(5) != 1), res.getInt(6), res.getString(8) );
 				list.add(e);
 			}
 			Departement.employees = list;
@@ -155,9 +160,6 @@ public class SqlConnection {
 				Project p = new Project(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getInt(7), res.getInt(8), res.getString(9));
 				list.add(p);
 			}
-			for (Project p: list) {
-				System.out.println(p.duration);
-			}
 			Departement.projects = list;
 			if (res.next()) {
 				return true;
@@ -168,28 +170,58 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean addTask(String description, String finaldate, String duration, String project, String employee) {
+	public boolean addTask(String description, String finaldate, String duration, int project, int employee) {
 		try {
 			addTask_statement = connection.prepareStatement(SQL_ADDTASK);
 			addTask_statement.setString(1, description);
 			addTask_statement.setString(2, finaldate);
 			addTask_statement.setString(3, duration);
-			System.out.println("IDS");
-			for(Project p : Departement.projects) {
-				if (p.name == project) {
-					System.out.println(p.getName());
-					addTask_statement.setInt(4, p.getProId());
-				}
-			}
-			for(Employee e : Departement.employees) {
-				if (e.username == employee) {
-					System.out.println(e.getUsername());
-					addTask_statement.setInt(5, e.getUserId());
-				}
-			}
+			addTask_statement.setInt(4, project);
+			addTask_statement.setInt(5, employee);
+			addTask_statement.setString(6, "In progress");
 			int res = addTask_statement.executeUpdate();
 			if ( res != 0 ) {
 				addTask_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean updateTask(String description, String finaldate, String duration, int project, int employee, int id) {
+		try {
+			updateTask_statement = connection.prepareStatement(SQL_UPDATETASK);
+			updateTask_statement.setString(1, description);
+			updateTask_statement.setString(2, finaldate);
+			updateTask_statement.setString(3, duration);
+			updateTask_statement.setInt(4, project);
+			updateTask_statement.setInt(5, employee);
+			updateTask_statement.setInt(6, id);
+			int res = updateTask_statement.executeUpdate();
+			if ( res != 0 ) {
+				updateTask_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean updateTask2 (String status, String nature, String comment, int id) {
+		try {
+			updateTask2_statement = connection.prepareStatement(SQL_UPDATETASK2	);
+			updateTask2_statement.setString(1, status);
+			updateTask2_statement.setString(2, nature);
+			updateTask2_statement.setString(3, comment);
+			updateTask2_statement.setInt(4, id);
+			int res = updateTask2_statement.executeUpdate();
+			if ( res != 0 ) {
+				updateTask2_statement.close();
 				return true;
 			} 
 		} catch (Exception e) {
@@ -230,6 +262,23 @@ public class SqlConnection {
 			int res = deleteProject_statement.executeUpdate();
 			if ( res != 0 ) {
 				deleteProject_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean deleteTask(int id) {
+		try {
+			deleteTask_statement = connection.prepareStatement(SQL_DELETETASK);
+			deleteTask_statement.setInt(1, id);
+			
+			int res = deleteTask_statement.executeUpdate();
+			if ( res != 0 ) {
+				deleteTask_statement.close();
 				return true;
 			} 
 		} catch (Exception e) {
