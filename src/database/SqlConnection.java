@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import departement.*;
 import login.*;
 import project.*;
 import task.Task;
@@ -14,9 +13,9 @@ public class SqlConnection {
     private final String JDBC_CLASS = "org.sqlite.JDBC";
 	private final String SQL_LOGIN = "SELECT * FROM employee JOIN departement WHERE employee.name=? AND employee.password=? AND employee.departement=departement.id;";
 	private final String SQL_ADDPROJECT = "INSERT INTO project (name, description, duration, budget, departement, chef) VALUES (?, ?, ?, ?, ?, ?)";
-	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=? AND employee.departement=departement.id;";
-	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=? AND project.departement=departement.id;";
-	private final String SQL_TASKOFDEP = "SELECT * FROM task JOIN departement JOIN employee JOIN project WHERE employee.departement=departement.id AND employee.id=task.employee AND task.project = project.id AND departement.id=?;";
+	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=departement.id;";
+	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=departement.id;";
+	private final String SQL_TASKOFDEP = "SELECT * FROM task JOIN departement JOIN employee JOIN project WHERE employee.departement=departement.id AND employee.id=task.employee AND task.project = project.id;";
 	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee, status) VALUES (?, ?, ?, ?, ?, ?)";
 	private final String SQL_UPDATETASK = "UPDATE task SET description=?, final_date=?, duration=?, project=?, employee=? WHERE id=?";
 	private final String SQL_DELETETASK = "DELETE FROM task WHERE id=?";
@@ -69,14 +68,16 @@ public class SqlConnection {
 				User.userId = id;
 				String name = res.getString(2);
 				User.username = name;
-				boolean chef = (res.getInt(3) != 0);
+				boolean chef = (res.getInt(4) != 1);
 				User.chef = chef;
-				boolean director = (res.getInt(4) != 0);
+				boolean director = (res.getInt(5) != 1);
 				User.director = director;
 				int departementId = res.getInt(7);
 				User.departementId = departementId;
 				String departement = res.getString(8);
 				User.departement = departement;
+				System.out.println("dir  " + User.director);
+				System.out.println("chef  " + User.chef);
 				res.close();
 				statement.close();
 				return true;
@@ -108,18 +109,20 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean fetchEmp (int departement) {
+	public boolean fetchEmp() {
 		try {
 			fetchEmp_statement = connection.prepareStatement(SQL_EMPOFDEP);
-			fetchEmp_statement.setInt(1, departement);
 			ResultSet res = fetchEmp_statement.executeQuery();
 			ArrayList<Employee> list = new ArrayList<Employee>();
-			Departement.depId = departement;
 			while (res.next()){
 				Employee e = new Employee(res.getInt(1), res.getString(2), (res.getInt(4) != 1), (res.getInt(5) != 1), res.getInt(6), res.getString(8) );
-				list.add(e);
+				if (User.director) {
+					list.add(e);
+				} else if (User.chef && e.departementId == User.departementId) {
+					list.add(e);
+				}
 			}
-			Departement.employees = list;
+			User.employees = list;
 			if (res.next()) {
 				return true;
 			}
@@ -129,18 +132,22 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean fetchTask (int departement) {
+	public boolean fetchTask() {
 		try {
 			fetchTask_statement = connection.prepareStatement(SQL_TASKOFDEP);
-			fetchTask_statement.setInt(1, departement);
 			ResultSet res = fetchTask_statement.executeQuery();
 			ArrayList<Task> list = new ArrayList<Task>();
-			Departement.depId = departement;
 			while (res.next()){
 				Task t = new Task(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6),  res.getString(7), res.getInt(9), res.getString(13), res.getInt(10), res.getString(11), res.getInt(18), res.getString(19));
-				list.add(t);
+				if (User.director) {
+					list.add(t);
+				} else if (User.chef && t.departementId == User.departementId) {
+					list.add(t);
+				} else if (t.employeeId == User.userId) {
+					list.add(t);
+				}
 			}
-			Departement.tasks = list;
+			User.tasks = list;
 			if (res.next()) {
 				return true;
 			}
@@ -150,17 +157,20 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean fetchPro (int departement) {
+	public boolean fetchPro() {
 		try {
 			fetchPro_statement = connection.prepareStatement(SQL_PROOFDEP);
-			fetchPro_statement.setInt(1, departement);
 			ResultSet res = fetchPro_statement.executeQuery();
 			ArrayList<Project> list = new ArrayList<Project>();
 			while (res.next()){
 				Project p = new Project(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getInt(7), res.getInt(8), res.getString(9));
-				list.add(p);
+				if (User.director) {
+					list.add(p);
+				} else if (User.chef && p.departementId == User.departementId) {
+					list.add(p);
+				}
 			}
-			Departement.projects = list;
+			User.projects = list;
 			if (res.next()) {
 				return true;
 			}

@@ -83,9 +83,9 @@ public class Login {
 				String password = String.valueOf(passwordChars);
 				while (attempts != 0) {
 					if ( dao.login(username, password) ) {
-						dao.fetchEmp(User.departementId);
-						dao.fetchPro(User.departementId);
-						dao.fetchTask(User.departementId);
+						dao.fetchEmp();
+						dao.fetchPro();
+						dao.fetchTask();
 						JOptionPane.showMessageDialog(null, "Logged in successfully " + username);
 						MainMenu menu = new MainMenu();
 						menu.setVisible(true);
@@ -127,7 +127,7 @@ public class Login {
 		
 		JLabel bg = new JLabel();
 		bg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/Untitled-1.png")));
-		bg.setBounds(-20, 0, 534, 374);
+		bg.setBounds(0, 0, 514, 313);
 		frame.getContentPane().add(bg);
 	}
 }

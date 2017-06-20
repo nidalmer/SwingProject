@@ -1,7 +1,6 @@
 package project;
 
 import mainMenu.*;
-import departement.*;
 import login.*;
 import database.*;
 
@@ -107,7 +106,7 @@ public class allPro {
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(135, 206, 235));
+		panel_1.setBackground(new Color(173, 216, 230));
 		panel_1.setBounds(0, 0, 784, 29);
 		panel.add(panel_1);
 		
@@ -239,7 +238,7 @@ public class allPro {
 			public void mouseClicked(MouseEvent arg0) {
 				int row = table.getSelectedRow();
 				int selectedId = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
-				for (Project p: Departement.projects) {
+				for (Project p: User.projects) {
 					if (p.proId == selectedId) {
 						descField.setText(p.description);
 						nameField.setText(p.name);
@@ -264,7 +263,7 @@ public class allPro {
 	    model.addColumn("Budget"); 
 	    model.addColumn("Chef"); 
 	    model.addColumn("Departement"); 
-	    for (Project p: Departement.projects) {
+	    for (Project p: User.projects) {
 		    model.addRow(new Object[]{String.valueOf(p.proId), p.name, p.description, p.duration, p.budget, p.getChefName(), p.departement});
 	    }
 	    
@@ -283,10 +282,10 @@ public class allPro {
 				int chef = User.userId;
 				int departement = User.departementId;
 				if(!name.isEmpty() && !duration.isEmpty()) {
-					if (!Departement.proAlreadyExists(name, departement)) {
+					if (!User.proAlreadyExists(name, departement)) {
 						dao.addProject(name, description, duration, budget, chef, departement); 
 						JOptionPane.showMessageDialog(null, "Project " + name + " created successfully!");
-						dao.fetchPro(departement);
+						dao.fetchPro();
 						allPro pro = new allPro();
 						pro.frame.setVisible(true);
 						frame.dispose();
@@ -337,7 +336,7 @@ public class allPro {
 				if(!name.isEmpty() && !duration.isEmpty()) {
 					dao.updateProject(name, description, duration, budget, chef, departement, id); 
 					JOptionPane.showMessageDialog(null, "Project " + name + " updated successfully!");
-					dao.fetchPro(departement);
+					dao.fetchPro();
 					allPro pro = new allPro();
 					pro.frame.setVisible(true);
 					frame.dispose();
@@ -358,13 +357,12 @@ public class allPro {
 		delete_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
-				int departement = User.departementId;
 				int id = Integer.parseInt(idField.getText());
 				int action = JOptionPane.showConfirmDialog(null, "Do you really want to delete project " + name + "?");
 				if (action == 0) {
 					dao.deleteProject(id); 
 					JOptionPane.showMessageDialog(null, "Project " + name + " deleted successfully!");
-					dao.fetchPro(departement);
+					dao.fetchPro();
 					allPro pro = new allPro();
 					pro.frame.setVisible(true);
 					frame.dispose();
@@ -378,5 +376,10 @@ public class allPro {
 		delete_button.setBackground(new Color(135, 206, 235));
 		delete_button.setBounds(454, 407, 75, 28);
 		panel.add(delete_button);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(allPro.class.getResource("/images/bg.png")));
+		label.setBounds(0, 29, 785, 432);
+		panel.add(label);
 	}
 }

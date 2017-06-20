@@ -1,7 +1,7 @@
 package employee;
 
 import mainMenu.*;
-import departement.*;
+import project.allPro;
 import login.*;
 
 import javax.swing.*;
@@ -100,7 +100,7 @@ public class allEmp {
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(135, 206, 235));
+		panel_1.setBackground(new Color(173, 216, 230));
 		panel_1.setBounds(0, 0, 514, 29);
 		panel.add(panel_1);
 		
@@ -117,7 +117,7 @@ public class allEmp {
 		Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 30, 514, 323);
+		panel_2.setBounds(0, 30, 514, 397);
 		frame.getContentPane().add(panel_2);
 		
 		JButton back_button = new JButton("Back");
@@ -157,21 +157,22 @@ public class allEmp {
 		scroller.setBounds(109, 114, 326, 198);
 		panel.add(scroller);
 		
-	
-
-	    // Create a couple of columns 
 	    model.addColumn("ID"); 
 	    model.addColumn("Username"); 
 	    model.addColumn("Departement"); 
 	    model.addColumn("Chef");
 	    table.removeColumn( table.getColumnModel().getColumn(3) );
-	    for (Employee e: Departement.employees) {
+	    for (Employee e: User.employees) {
 		    model.addRow(new Object[]{String.valueOf(e.userId), e.username, e.departement, e.chef});
 	    }
 	    
 	    for (int i = 0; i < table.getColumnCount(); i++) {
 		    table.getColumnModel().getColumn(i).setCellRenderer(colouringTable);
 	    }
-	    // Append a row 
+
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(allPro.class.getResource("/images/bg.png")));
+		label.setBounds(0, 29, 514, 398);
+		panel.add(label);
 	}
 }

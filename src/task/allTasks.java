@@ -2,7 +2,6 @@ package task;
 
 import mainMenu.*;
 import project.*;
-import departement.*;
 import employee.*;
 import login.*;
 import database.*;
@@ -114,7 +113,7 @@ public class allTasks {
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(135, 206, 235));
+		panel_1.setBackground(new Color(173, 216, 230));
 		panel_1.setBounds(0, 0, 784, 29);
 		panel.add(panel_1);
 		
@@ -211,7 +210,7 @@ public class allTasks {
 		panel.add(lblpro);
 		
 		JComboBox<String> proField = new JComboBox<String>();
-		for (Project p: Departement.projects) {
+		for (Project p: User.projects) {
 			proField.addItem(p.name);
 		}
 		proField.setForeground(Color.BLACK);
@@ -225,7 +224,7 @@ public class allTasks {
 		panel.add(lblemp);
 		
 		JComboBox<String> empField = new JComboBox<String>();
-		for (Employee e: Departement.employees) {
+		for (Employee e: User.employees) {
 			empField.addItem(e.username);
 		}
 		empField.setForeground(Color.BLACK);
@@ -280,7 +279,7 @@ public class allTasks {
 			public void mouseClicked(MouseEvent arg0) {
 				int row = table.getSelectedRow();
 				int selectedId = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
-				for (Task t: Departement.tasks) {
+				for (Task t: User.tasks) {
 					if (t.taskId == selectedId) {
 						idField.setText(Integer.valueOf(t.taskId).toString());
 						descField.setText(t.description);
@@ -341,7 +340,7 @@ public class allTasks {
 	    model.addColumn("Employee");
 	    model.addColumn("Status");
 	    table.removeColumn( table.getColumnModel().getColumn(7) );
-	    for (Task t: Departement.tasks) {
+	    for (Task t: User.tasks) {
 	    	if (t.commentary != null) {
 	    		model.addRow(new Object[]{String.valueOf(t.taskId), t.description, t.final_date, t.duration, t.commentary, t.project, t.employee, t.status});
 	    	} else {
@@ -362,12 +361,12 @@ public class allTasks {
 				String duration = String.valueOf((Integer)durationField.getValue()).toString();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String date = dateFormat.format(dateField.getDate());
-				int project = Departement.proHasId(String.valueOf(proField.getSelectedItem()));
-				int employee = Departement.empHasId(String.valueOf(empField.getSelectedItem()));
+				int project = User.proHasId(String.valueOf(proField.getSelectedItem()));
+				int employee = User.empHasId(String.valueOf(empField.getSelectedItem()));
 				if(!description.isEmpty() && !duration.isEmpty()) {
 					dao.addTask(description, date, duration, project, employee); 
 					JOptionPane.showMessageDialog(null, "Task created successfully!");
-					dao.fetchTask(User.departementId);
+					dao.fetchTask();
 					allTasks task = new allTasks();
 					task.frame.setVisible(true);
 					frame.dispose();
@@ -412,8 +411,8 @@ public class allTasks {
 				String duration = String.valueOf((Integer)durationField.getValue()).toString();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String date = dateFormat.format(dateField.getDate());
-				int project = Departement.proHasId(String.valueOf(proField.getSelectedItem()));
-				int employee = Departement.empHasId(String.valueOf(empField.getSelectedItem()));
+				int project = User.proHasId(String.valueOf(proField.getSelectedItem()));
+				int employee = User.empHasId(String.valueOf(empField.getSelectedItem()));
 				String status = String.valueOf(statusField.getSelectedItem());
 				String nature = String.valueOf(natureField.getSelectedItem());
 				String comment = commentField.getText();
@@ -422,7 +421,7 @@ public class allTasks {
 					if(!description.isEmpty() && !duration.isEmpty()) {
 						dao.updateTask(description, date, duration, project, employee, id); 
 						JOptionPane.showMessageDialog(null, "Task updates successfully!");
-						dao.fetchTask(User.departementId);
+						dao.fetchTask();
 						allTasks task = new allTasks();
 						task.frame.setVisible(true);
 						frame.dispose();
@@ -433,7 +432,7 @@ public class allTasks {
 					if(!comment.isEmpty()) {
 						dao.updateTask2(status, nature, comment, id); 
 						JOptionPane.showMessageDialog(null, "Task updates successfully!");
-						dao.fetchTask(User.departementId);
+						dao.fetchTask();
 						allTasks task = new allTasks();
 						task.frame.setVisible(true);
 						frame.dispose();
@@ -460,7 +459,7 @@ public class allTasks {
 				if (action == 0) {
 					dao.deleteTask(id); 
 					JOptionPane.showMessageDialog(null, "Task deleted successfully!");
-					dao.fetchTask(User.departementId);
+					dao.fetchTask();
 					allTasks task = new allTasks();
 					task.frame.setVisible(true);
 					frame.dispose();
@@ -474,6 +473,11 @@ public class allTasks {
 		delete_button.setBackground(new Color(135, 206, 235));
 		delete_button.setBounds(454, 407, 75, 28);
 		panel.add(delete_button);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(allPro.class.getResource("/images/bg.png")));
+		label.setBounds(0, 29, 785, 432);
+		panel.add(label);
 		
 
 		

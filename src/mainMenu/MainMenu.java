@@ -166,7 +166,7 @@ public class MainMenu extends JFrame {
 			lblUserRank.setText("(Director)");
 		} else if (User.chef) {
 			lblUserRank.setText("(Chef)");
-		} else {
+		} else if (!User.director && !User.chef) {
 			lblUserRank.setText("(Employee)");
 		}
 		panel.add(lblUserRank);

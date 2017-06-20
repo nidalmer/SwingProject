@@ -1,6 +1,5 @@
 package project;
 import mainMenu.*;
-import departement.Departement;
 import login.*;
 
 import java.awt.EventQueue;
@@ -212,7 +211,7 @@ public class searchProject {
 		search_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String searchName = searchField.getText();
-				for (Project p : Departement.projects) {
+				for (Project p : User.projects) {
 					if(p.name.equals(searchName)) {
 						nameField.setText(p.name);
 						descField.setText(p.description);

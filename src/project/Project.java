@@ -2,6 +2,7 @@ package project;
 
 import departement.Departement;
 import employee.Employee;
+import login.User;
 
 public class Project {
 	public String name;
@@ -49,7 +50,7 @@ public class Project {
 	}
 	
 	public String getChefName() {
-		for (Employee e : Departement.employees) {
+		for (Employee e : User.employees) {
 			if (e.userId == this.chef) {
 				return e.username;
 			}
