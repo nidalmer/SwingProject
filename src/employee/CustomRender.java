@@ -23,7 +23,6 @@ public class CustomRender extends DefaultTableCellRenderer {
         for (int i = 0; i < desiredColors.size(); i++) {
             cellComponent.setBackground(desiredColors.get(i));
         }
-
         boolean pos = (boolean)table.getModel().getValueAt(row, 3);
         if (isSelected)
         	cellComponent.setBackground( table.getSelectionBackground() );

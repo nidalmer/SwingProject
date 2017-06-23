@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import departement.Departement;
 import login.*;
 import project.*;
 import task.Task;
@@ -15,6 +16,7 @@ public class SqlConnection {
 	private final String SQL_ADDPROJECT = "INSERT INTO project (name, description, duration, budget, departement, chef) VALUES (?, ?, ?, ?, ?, ?)";
 	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=departement.id;";
 	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=departement.id;";
+	private final String SQL_DEP = "SELECT departement.id, departement.name, employee.name FROM departement JOIN employee WHERE departement.id = employee.departement AND employee.chef = 0;";
 	private final String SQL_TASKOFDEP = "SELECT * FROM task JOIN departement JOIN employee JOIN project WHERE employee.departement=departement.id AND employee.id=task.employee AND task.project = project.id;";
 	private final String SQL_ADDTASK = "INSERT INTO task (description, final_date, duration, project, employee, status) VALUES (?, ?, ?, ?, ?, ?)";
 	private final String SQL_UPDATETASK = "UPDATE task SET description=?, final_date=?, duration=?, project=?, employee=? WHERE id=?";
@@ -28,6 +30,7 @@ public class SqlConnection {
 	private PreparedStatement fetchEmp_statement;
 	private PreparedStatement fetchPro_statement;
 	private PreparedStatement fetchTask_statement;
+	private PreparedStatement fetchDep_statement;
 	private PreparedStatement addTask_statement;
 	private PreparedStatement deleteTask_statement;
 	private PreparedStatement updateTask_statement;
@@ -171,6 +174,27 @@ public class SqlConnection {
 				}
 			}
 			User.projects = list;
+			if (res.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return false;				
+	}
+	
+	public boolean fetchDep() {
+		try {
+			fetchDep_statement = connection.prepareStatement(SQL_DEP);
+			ResultSet res = fetchDep_statement.executeQuery();
+			ArrayList<Departement> list = new ArrayList<Departement>();
+			while (res.next()){
+				Departement d = new Departement(res.getInt(1), res.getString(2), res.getString(3));
+				if (User.director) {
+					list.add(d);
+				}
+			}
+			User.departements = list;
 			if (res.next()) {
 				return true;
 			}

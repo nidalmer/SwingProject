@@ -4,14 +4,13 @@ import login.*;
 import project.*;
 import task.*;
 import employee.*;
+import departement.*;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -124,6 +123,16 @@ public class MainMenu extends JFrame {
 			}
 		});
 		panel_2.add(btnAllTasks);
+		
+		JButton btnAllDep = new JButton("Display all departements");
+		btnAllDep.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allDep depT = new allDep();
+				depT.frame.setVisible(true);
+				dispose();
+			}
+		});
+		panel_2.add(btnAllDep);
 		
 		JLabel lblName = new JLabel("Name : ");
 		lblName.setForeground(new Color(0, 0, 0));

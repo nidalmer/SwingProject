@@ -7,7 +7,6 @@ import login.*;
 import database.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
@@ -117,14 +116,9 @@ public class allTasks {
 		panel_1.setBounds(0, 0, 784, 29);
 		panel.add(panel_1);
 		
-		JLabel Title = new JLabel("Manage tasks");
-		Title.setBounds(300, 52, 199, 31);
-		Border compound;
-		
-		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
-		compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
-		Title.setBorder(compound);
+		JLabel Title = new JLabel("");
+		Title.setIcon(new ImageIcon(allTasks.class.getResource("/images/task.png")));
+		Title.setBounds(203, 36, 409, 55);
 		panel.add(Title);
 		Title.setHorizontalAlignment(SwingConstants.CENTER);
 		Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));

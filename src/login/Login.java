@@ -50,7 +50,8 @@ public class Login {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel Title = new JLabel("Welcome To Our Project");
-		Title.setBounds(161, 49, 199, 31);
+		Title.setIcon(new ImageIcon(Login.class.getResource("/images/welcome.png")));
+		Title.setBounds(56, 11, 405, 94);
 		Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		frame.getContentPane().add(Title);
 		
@@ -86,6 +87,7 @@ public class Login {
 						dao.fetchEmp();
 						dao.fetchPro();
 						dao.fetchTask();
+						dao.fetchDep();
 						JOptionPane.showMessageDialog(null, "Logged in successfully " + username);
 						MainMenu menu = new MainMenu();
 						menu.setVisible(true);

@@ -1,6 +1,15 @@
 package departement;
 
 public class Departement {
-	public static String name;
-	public static int depId;
+	public int depId;
+	public String name;
+	public String chef;
+	
+	public Departement(int depId, String name, String chef) {
+		this.depId = depId;
+		this.name = name;
+		this.chef = chef;
+	}
+	
+	
 }

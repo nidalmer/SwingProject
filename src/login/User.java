@@ -2,6 +2,7 @@ package login;
 
 import java.util.ArrayList;
 
+import departement.*;
 import employee.*;
 import project.*;
 import task.*;
@@ -16,6 +17,7 @@ public class User {
 	public static ArrayList<Employee> employees;
 	public static ArrayList<Project> projects;
 	public static ArrayList<Task> tasks;
+	public static ArrayList<Departement> departements;
 	
 	public static String getUsername() {
 		return username;

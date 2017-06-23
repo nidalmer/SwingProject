@@ -1,6 +1,8 @@
 package project;
 
 import mainMenu.*;
+import task.CustomTaskRenderer;
+import task.Task;
 import login.*;
 import database.*;
 
@@ -110,14 +112,9 @@ public class allPro {
 		panel_1.setBounds(0, 0, 784, 29);
 		panel.add(panel_1);
 		
-		JLabel Title = new JLabel("Manage projects");
-		Title.setBounds(300, 52, 199, 31);
-		Border compound;
-		
-		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
-		compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
-		Title.setBorder(compound);
+		JLabel Title = new JLabel();
+		Title.setIcon(new ImageIcon(allPro.class.getResource("/images/pro.png")));
+		Title.setBounds(218, 52, 394, 58);
 		panel.add(Title);
 		Title.setHorizontalAlignment(SwingConstants.CENTER);
 		Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -127,7 +124,7 @@ public class allPro {
 		frame.getContentPane().add(panel_2);
 		
 		JButton back_button = new JButton("Back");
-		back_button.setBounds(558, 406, 75, 28);
+		back_button.setBounds(637, 406, 75, 28);
 		panel.add(back_button);
 		back_button.setBackground(new Color(135, 206, 235));
 		back_button.setForeground(new Color(0, 0, 0));
@@ -298,7 +295,101 @@ public class allPro {
 				return;
 			}
 		});
-		save_button.setBounds(70, 399, 120, 45);
+		
+		JButton task_button = new JButton("Tasks");
+		task_button.setIcon(null);
+		task_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {JFrame tasks = new JFrame();
+			tasks.setBounds(100, 100, 510, 425);
+			tasks.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			tasks.getContentPane().setLayout(null);
+	
+			int id = Integer.parseInt(idField.getText());
+			
+			JPanel taskpan = new JPanel();
+			taskpan.setBounds(0, 0, 494, 391);
+			tasks.getContentPane().add(taskpan);
+			taskpan.setLayout(null);
+
+			Title.setIcon(new ImageIcon(allPro.class.getResource("/images/task.png")));
+			Title.setBounds(50, 11, 394, 58);
+			Border compound;
+			
+			Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+			Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+			compound = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
+			Title.setBorder(compound);
+			taskpan.add(Title);
+			Title.setHorizontalAlignment(SwingConstants.CENTER);
+			Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+			
+			
+			CustomTaskRenderer colouringTable = new CustomTaskRenderer();
+
+			DefaultTableModel taskmodel = new DefaultTableModel(){
+			    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public boolean isCellEditable(int rowIndex, int mColIndex) {
+			        return false;
+			    }
+			}; 
+			
+			JTable tasktable = new JTable(taskmodel);
+			JScrollPane scroller = new JScrollPane(tasktable);
+			scroller.setBounds(10, 60, 475, 274);
+			taskpan.add(scroller);
+			taskmodel.addColumn("ID");  
+			taskmodel.addColumn("Description");  
+			taskmodel.addColumn("Final date"); 
+			taskmodel.addColumn("Duration"); 
+			taskmodel.addColumn("Comment"); 
+			taskmodel.addColumn("Project"); 
+			taskmodel.addColumn("Employee");
+			taskmodel.addColumn("Status");
+		    tasktable.removeColumn( tasktable.getColumnModel().getColumn(7) );
+		    for (Task t: User.tasks) {
+		    	if(t.projectId == id)  {
+			    	if (t.commentary != null) {
+			    		taskmodel.addRow(new Object[]{String.valueOf(t.taskId), t.description, t.final_date, t.duration, t.commentary, t.project, t.employee, t.status});
+			    	} else {
+			    		taskmodel.addRow(new Object[]{String.valueOf(t.taskId), t.description, t.final_date, t.duration, "", t.project, t.employee, t.status});
+			    	}
+		    	}
+			}
+		    
+		    for (int i = 0; i < tasktable.getColumnCount(); i++) {
+		    	tasktable.getColumnModel().getColumn(i).setCellRenderer(colouringTable);
+		    }
+			
+			tasks.setVisible(true);
+			
+			JButton back_button = new JButton("Back");
+			back_button.setBounds(204, 345, 75, 28);
+			taskpan.add(back_button);
+			back_button.setBackground(new Color(135, 206, 235));
+			back_button.setForeground(new Color(0, 0, 0));
+			back_button.setFocusPainted(false);
+			back_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+			back_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
+			back_button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					tasks.dispose();
+				}
+			});
+			
+			return;
+			}
+		});
+		task_button.setBounds(295, 399, 120, 45);
+		panel.add(task_button);
+		task_button.setBackground(new Color(135, 206, 235));
+		task_button.setForeground(new Color(0, 0, 0));
+		task_button.setFocusPainted(false);
+		task_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		save_button.setBounds(46, 399, 120, 45);
 		panel.add(save_button);
 		save_button.setBackground(new Color(135, 206, 235));
 		save_button.setForeground(new Color(0, 0, 0));
@@ -318,7 +409,7 @@ public class allPro {
 		clear_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		clear_button.setFocusPainted(false);
 		clear_button.setBackground(new Color(135, 206, 235));
-		clear_button.setBounds(352, 408, 75, 28);
+		clear_button.setBounds(445, 407, 75, 28);
 		panel.add(clear_button);
 		
 		JButton update_button = new JButton("Update");
@@ -350,7 +441,7 @@ public class allPro {
 		update_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		update_button.setFocusPainted(false);
 		update_button.setBackground(new Color(135, 206, 235));
-		update_button.setBounds(200, 400, 120, 45);
+		update_button.setBounds(171, 399, 120, 45);
 		panel.add(update_button);
 		
 		JButton delete_button = new JButton("Delete");
@@ -374,7 +465,7 @@ public class allPro {
 		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		delete_button.setFocusPainted(false);
 		delete_button.setBackground(new Color(135, 206, 235));
-		delete_button.setBounds(454, 407, 75, 28);
+		delete_button.setBounds(552, 407, 75, 28);
 		panel.add(delete_button);
 		
 		JLabel label = new JLabel("");
