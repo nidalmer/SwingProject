@@ -2,6 +2,7 @@ package views;
 
 import controllers.*;
 import models.*;
+import custom.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +83,7 @@ public class allEmp {
 		}
 		
 		JButton logout_button = new JButton("");
-		logout_button.addActionListener(new Logout());
+		logout_button.addActionListener(new Connect());
 		logout_button.setBounds(479, 0, 35, 29);
 		panel.add(logout_button);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
@@ -115,7 +116,7 @@ public class allEmp {
 		CellTableModel model = new CellTableModel();
 
 		table = new JTable(model);
-		table.addMouseListener(new selectEmp(table, idField));
+		table.addMouseListener(new EmpControl(table, idField));
 		JScrollPane scroller = new JScrollPane(table);
 		scroller.setBounds(38, 92, 436, 255);
 		panel.add(scroller);
@@ -140,7 +141,7 @@ public class allEmp {
 		task_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		task_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		panel.add(task_button);
-		task_button.addActionListener(new EmpTask(idField));
+		task_button.addActionListener(new EmpControl(idField));
 		
 		JButton project_button = new JButton("Projects");
 		project_button.setIcon(null);
@@ -151,7 +152,7 @@ public class allEmp {
 		project_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		project_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		panel.add(project_button);
-		project_button.addActionListener(new EmpPro(idField));
+		project_button.addActionListener(new EmpControl(idField));
 		
 		JButton back_button = new JButton("Back");
 		back_button.setBounds(129, 374, 75, 28);

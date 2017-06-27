@@ -1,16 +1,15 @@
 package views;
 
 import controllers.*;
+import custom.*;
 
-import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-
+import java.awt.EventQueue;
 
 public class Login {
 	

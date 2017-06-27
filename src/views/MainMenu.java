@@ -72,7 +72,7 @@ public class MainMenu extends JFrame {
 		JButton logout_button = new JButton("");
 		logout_button.setBounds(397, 0, 37, 34);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
-		logout_button.addActionListener(new Logout());
+		logout_button.addActionListener(new Connect());
 		panel.add(logout_button);
 		
 		JLabel lblDepartement = new JLabel("Departement :");

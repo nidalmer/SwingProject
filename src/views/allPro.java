@@ -2,6 +2,7 @@ package views;
 
 import controllers.*;
 import models.*;
+import custom.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +85,7 @@ public class allPro {
 		}
 		
 		JButton logout_button = new JButton("");
-		logout_button.addActionListener(new Logout());
+		logout_button.addActionListener(new Connect());
 		logout_button.setBounds(750, 0, 35, 29);
 		panel.add(logout_button);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
@@ -197,7 +198,7 @@ public class allPro {
 		panel.add(chefField);
 		
 		table = new JTable(model);
-		table.addMouseListener(new selectPro(table, idField, descField, nameField, durationField, budgetField, chefField, departementField));
+		table.addMouseListener(new ProControl(table, idField, descField, nameField, durationField, budgetField, chefField, departementField));
 		JScrollPane scroller = new JScrollPane(table);
 		scroller.setBounds(369, 121, 405, 252);
 		panel.add(scroller);
@@ -218,11 +219,11 @@ public class allPro {
 	    
 		JButton save_button = new JButton("New");
 		save_button.setIcon(null);
-		save_button.addActionListener(new addPro(nameField, descField, durationField, budgetField));
+		save_button.addActionListener(new ProControl(nameField, descField, durationField, budgetField));
 		
 		JButton task_button = new JButton("Tasks");
 		task_button.setIcon(null);
-		task_button.addActionListener(new ProTask(idField));
+		task_button.addActionListener(new ProControl(idField));
 		task_button.setBounds(295, 399, 120, 45);
 		panel.add(task_button);
 		task_button.setBackground(new Color(135, 206, 235));
@@ -238,7 +239,7 @@ public class allPro {
 		save_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton clear_button = new JButton("Clear");
-		clear_button.addActionListener(new clearPro(nameField, descField, durationField, budgetField));
+		clear_button.addActionListener(new ProControl(nameField, descField, durationField, budgetField));
 		clear_button.setForeground(new Color(0, 0, 0));
 		clear_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		clear_button.setFocusPainted(false);
@@ -248,7 +249,7 @@ public class allPro {
 		
 		JButton update_button = new JButton("Update");
 		update_button.setIcon(null);
-		update_button.addActionListener(new updatePro(idField, nameField, descField, durationField, budgetField));
+		update_button.addActionListener(new ProControl(idField, nameField, descField, durationField, budgetField));
 		update_button.setForeground(Color.BLACK);
 		update_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		update_button.setFocusPainted(false);
@@ -257,7 +258,7 @@ public class allPro {
 		panel.add(update_button);
 		
 		JButton delete_button = new JButton("Delete");
-		delete_button.addActionListener(new deletePro(idField));
+		delete_button.addActionListener(new ProControl(idField));
 		delete_button.setForeground(Color.BLACK);
 		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		delete_button.setFocusPainted(false);

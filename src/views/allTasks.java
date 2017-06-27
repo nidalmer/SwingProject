@@ -2,6 +2,7 @@ package views;
 
 import controllers.*;
 import models.*;
+import custom.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +85,7 @@ public class allTasks {
 		}
 		
 		JButton logout_button = new JButton("");
-		logout_button.addActionListener(new Logout());
+		logout_button.addActionListener(new Connect());
 		logout_button.setBounds(750, 0, 35, 29);
 		panel.add(logout_button);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
@@ -225,12 +226,13 @@ public class allTasks {
 		lblstatus.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblstatus.setBounds(10, 290, 140, 17);
 		panel.add(lblstatus);
+		
 		CustomTaskRenderer colouringTable = new CustomTaskRenderer();
 
 		CellTableModel model = new CellTableModel();
 		
 		table = new JTable(model);
-		table.addMouseListener(new selectTask(table, idField, descField, dateField, durationField, commentField, proField, empField, statusField, natureField));
+		table.addMouseListener(new TaskControl(table, idField, descField, dateField, durationField, commentField, proField, empField, statusField, natureField));
 		JScrollPane scroller = new JScrollPane(table);
 		scroller.setBounds(369, 94, 405, 294);
 		panel.add(scroller);
@@ -254,7 +256,7 @@ public class allTasks {
 	    
 		JButton save_button = new JButton("New");
 		save_button.setIcon(null);
-		save_button.addActionListener(new addTask(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
+		save_button.addActionListener(new TaskControl(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
 		save_button.setBounds(70, 399, 120, 45);
 		panel.add(save_button);
 		save_button.setBackground(new Color(135, 206, 235));
@@ -263,7 +265,7 @@ public class allTasks {
 		save_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton clear_button = new JButton("Clear");
-		clear_button.addActionListener(new clearTask(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
+		clear_button.addActionListener(new TaskControl(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
 		clear_button.setForeground(new Color(0, 0, 0));
 		clear_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		clear_button.setFocusPainted(false);
@@ -273,7 +275,7 @@ public class allTasks {
 		
 		JButton update_button = new JButton("Update");
 		update_button.setIcon(null);
-		update_button.addActionListener(new updateTask(idField, descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
+		update_button.addActionListener(new TaskControl(idField, descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
 		update_button.setForeground(Color.BLACK);
 		update_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		update_button.setFocusPainted(false);
@@ -282,7 +284,7 @@ public class allTasks {
 		panel.add(update_button);
 		
 		JButton delete_button = new JButton("Delete");
-		delete_button.addActionListener(new deleteTask(idField));
+		delete_button.addActionListener(new TaskControl(idField));
 		delete_button.setForeground(Color.BLACK);
 		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		delete_button.setFocusPainted(false);

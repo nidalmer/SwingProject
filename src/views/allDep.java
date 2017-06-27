@@ -2,6 +2,7 @@ package views;
 
 import controllers.*;
 import models.*;
+import custom.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,7 +82,7 @@ public class allDep {
 		}
 		
 		JButton logout_button = new JButton("");
-		logout_button.addActionListener(new Logout());
+		logout_button.addActionListener(new Connect());
 		logout_button.setBounds(479, 0, 35, 29);
 		panel.add(logout_button);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
@@ -112,7 +113,7 @@ public class allDep {
 		CellTableModel model = new CellTableModel();
 
 		table = new JTable(model);
-		table.addMouseListener(new selectDep(table, idField));
+		table.addMouseListener(new DepControl(table, idField));
 		JScrollPane scroller = new JScrollPane(table);
 		scroller.setBounds(38, 108, 436, 255);
 		panel.add(scroller);
@@ -131,7 +132,7 @@ public class allDep {
 		task_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		task_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		panel.add(task_button);
-		task_button.addActionListener(new DepTask(idField));
+		task_button.addActionListener(new DepControl(idField));
 		
 		JButton project_button = new JButton("Projects");
 		project_button.setIcon(null);
@@ -142,7 +143,7 @@ public class allDep {
 		project_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		project_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		panel.add(project_button);
-		project_button.addActionListener(new DepPro(idField));
+		project_button.addActionListener(new DepControl(idField));
 		
 		JButton employee_button = new JButton("Employees");
 		employee_button.setIcon(null);
@@ -153,7 +154,7 @@ public class allDep {
 		employee_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		employee_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		panel.add(employee_button);
-		employee_button.addActionListener(new DepEmp(idField));
+		employee_button.addActionListener(new DepControl(idField));
 		
 		JButton back_button = new JButton("Back");
 		back_button.setBounds(58, 374, 75, 28);
