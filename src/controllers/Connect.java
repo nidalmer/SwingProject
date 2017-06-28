@@ -24,6 +24,7 @@ public class Connect implements ActionListener{
 	
 	public Connect() {};
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String btn_name = ((JButton) e.getSource()).getText();
 		if(btn_name == "Connect") {

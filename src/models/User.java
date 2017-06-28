@@ -74,4 +74,13 @@ public class User {
 		}
 		return 0;
 	}
+	
+	public static boolean taskAlreadyExists(String description, int departement) {
+		for(Task t: tasks) {
+			if (t.description.equals(description) && t.departementId == departement) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -20,6 +20,7 @@ public class allTasks {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					allTasks window = new allTasks();
@@ -107,7 +108,8 @@ public class allTasks {
 		frame.getContentPane().add(panel_2);
 		
 		JButton back_button = new JButton("Back");
-		back_button.setBounds(558, 406, 75, 28);
+		back_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/back.png")));
+		back_button.setBounds(620, 400, 105, 45);
 		panel.add(back_button);
 		back_button.setBackground(new Color(135, 206, 235));
 		back_button.setForeground(new Color(0, 0, 0));
@@ -255,9 +257,9 @@ public class allTasks {
 	    
 	    
 		JButton save_button = new JButton("New");
-		save_button.setIcon(null);
+		save_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/add.png")));
 		save_button.addActionListener(new TaskControl(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
-		save_button.setBounds(70, 399, 120, 45);
+		save_button.setBounds(40, 400, 120, 45);
 		panel.add(save_button);
 		save_button.setBackground(new Color(135, 206, 235));
 		save_button.setForeground(new Color(0, 0, 0));
@@ -265,32 +267,44 @@ public class allTasks {
 		save_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton clear_button = new JButton("Clear");
+		clear_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/clear.png")));
 		clear_button.addActionListener(new TaskControl(descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
 		clear_button.setForeground(new Color(0, 0, 0));
 		clear_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		clear_button.setFocusPainted(false);
 		clear_button.setBackground(new Color(135, 206, 235));
-		clear_button.setBounds(352, 408, 75, 28);
+		clear_button.setBounds(400, 400, 105, 45);
 		panel.add(clear_button);
 		
 		JButton update_button = new JButton("Update");
-		update_button.setIcon(null);
+		update_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/edit.png")));
 		update_button.addActionListener(new TaskControl(idField, descField, durationField, commentField, proField, empField, natureField, statusField, dateField));
 		update_button.setForeground(Color.BLACK);
 		update_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		update_button.setFocusPainted(false);
 		update_button.setBackground(new Color(135, 206, 235));
-		update_button.setBounds(200, 400, 120, 45);
+		update_button.setBounds(165, 400, 120, 45);
 		panel.add(update_button);
 		
 		JButton delete_button = new JButton("Delete");
+		delete_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/delete.png")));
 		delete_button.addActionListener(new TaskControl(idField));
 		delete_button.setForeground(Color.BLACK);
 		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		delete_button.setFocusPainted(false);
 		delete_button.setBackground(new Color(135, 206, 235));
-		delete_button.setBounds(454, 407, 75, 28);
+		delete_button.setBounds(290, 400, 105, 45);
 		panel.add(delete_button);
+		
+		JButton import_button = new JButton("Import");
+		import_button.setIcon(new ImageIcon(allTasks.class.getResource("/images/import.png")));
+		import_button.addActionListener(new TaskControl());
+		import_button.setForeground(Color.BLACK);
+		import_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		import_button.setFocusPainted(false);
+		import_button.setBackground(new Color(135, 206, 235));
+		import_button.setBounds(510, 400, 105, 45);
+		panel.add(import_button);
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(allPro.class.getResource("/images/bg.png")));

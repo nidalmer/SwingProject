@@ -30,6 +30,7 @@ public class MainMenu extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					MainMenu frame = new MainMenu();
@@ -92,7 +93,7 @@ public class MainMenu extends JFrame {
 			lblUserRank.setText("(Director)");
 		} else if (User.chef) {
 			lblUserRank.setText("(Chef)");
-		} else if (!User.director && !User.chef) {
+		} else {
 			lblUserRank.setText("(Employee)");
 		}
 		panel.add(lblUserRank);
@@ -123,6 +124,7 @@ public class MainMenu extends JFrame {
 		panel.add(btnAllTasks);
 		btnAllTasks.setIcon(new ImageIcon(MainMenu.class.getResource("/images/time-management.png")));
 		btnAllTasks.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				allTasks taskT = new allTasks();
 				taskT.frame.setVisible(true);
@@ -130,6 +132,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		btnAllDep.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				allDep depT = new allDep();
 				depT.frame.setVisible(true);
@@ -137,6 +140,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		btnAllEmp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				allEmp empT = new allEmp();
 				empT.frame.setVisible(true);
@@ -144,6 +148,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		btnAllPro.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				allPro proT = new allPro();
 				proT.frame.setVisible(true);

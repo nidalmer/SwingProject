@@ -18,6 +18,7 @@ public class allEmp {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					allEmp window = new allEmp();
@@ -118,7 +119,7 @@ public class allEmp {
 		table = new JTable(model);
 		table.addMouseListener(new EmpControl(table, idField));
 		JScrollPane scroller = new JScrollPane(table);
-		scroller.setBounds(38, 92, 436, 255);
+		scroller.setBounds(38, 100, 436, 255);
 		panel.add(scroller);
 		
 	    model.addColumn("ID"); 
@@ -132,9 +133,9 @@ public class allEmp {
 		    table.getColumnModel().getColumn(i).setCellRenderer(colouringTable);
 	    }
 	    
-		JButton task_button = new JButton("Tasks");
-		task_button.setIcon(null);
-		task_button.setBounds(327, 374, 75, 28);
+	    JButton task_button = new JButton("Tasks");
+		task_button.setIcon(new ImageIcon(allDep.class.getResource("/images/tasks.png")));
+		task_button.setBounds(344, 371, 105, 45);
 		task_button.setBackground(new Color(135, 206, 235));
 		task_button.setForeground(new Color(0, 0, 0));
 		task_button.setFocusPainted(false);
@@ -144,8 +145,8 @@ public class allEmp {
 		task_button.addActionListener(new EmpControl(idField));
 		
 		JButton project_button = new JButton("Projects");
-		project_button.setIcon(null);
-		project_button.setBounds(217, 374, 100, 28);
+		project_button.setIcon(new ImageIcon(allDep.class.getResource("/images/projects.png")));
+		project_button.setBounds(201, 371, 115, 45);
 		project_button.setBackground(new Color(135, 206, 235));
 		project_button.setForeground(new Color(0, 0, 0));
 		project_button.setFocusPainted(false);
@@ -155,7 +156,8 @@ public class allEmp {
 		project_button.addActionListener(new EmpControl(idField));
 		
 		JButton back_button = new JButton("Back");
-		back_button.setBounds(129, 374, 75, 28);
+		back_button.setIcon(new ImageIcon(allDep.class.getResource("/images/back.png")));
+		back_button.setBounds(70, 371, 100, 45);
 		panel.add(back_button);
 		back_button.setBackground(new Color(135, 206, 235));
 		back_button.setForeground(new Color(0, 0, 0));

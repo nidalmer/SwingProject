@@ -18,21 +18,19 @@ public class CustomProRenderer extends DefaultTableCellRenderer {
         desiredColors.add(incomingColor);
     }
 
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    @Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         for (int i = 0; i < desiredColors.size(); i++) {
             cellComponent.setBackground(desiredColors.get(i));
         }
         
-        if (row%2 == 0)
-            cellComponent.setBackground(new Color(230, 242, 255));
-        else 
-        	cellComponent.setBackground(table.getBackground());
+        boolean valid = (boolean)table.getModel().getValueAt(row, 8);
         		
         
         if (isSelected)
         	cellComponent.setBackground(table.getSelectionBackground());
-        else if (row%2 == 0)
+        else if (valid)
             cellComponent.setBackground(new Color(230, 242, 255));
 		else 
 			cellComponent.setBackground(table.getBackground());

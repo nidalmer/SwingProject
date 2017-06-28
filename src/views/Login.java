@@ -22,6 +22,7 @@ public class Login {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Login window = new Login();
@@ -97,6 +98,7 @@ public class Login {
 		cancel_button.setContentAreaFilled(false);
 		cancel_button.setBorder(new LineBorder(Color.BLUE));
 		cancel_button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 			}

@@ -18,7 +18,8 @@ public class CustomTaskRenderer extends DefaultTableCellRenderer {
         desiredColors.add(incomingColor);
     }
 
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    @Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         for (int i = 0; i < desiredColors.size(); i++) {
             cellComponent.setBackground(desiredColors.get(i));

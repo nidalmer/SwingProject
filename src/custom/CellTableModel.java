@@ -15,6 +15,7 @@ public class CellTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public boolean isCellEditable(int rowIndex, int mColIndex) {
         return false;
     }
@@ -27,7 +28,7 @@ public class CellTableModel extends DefaultTableModel {
 	
 	public void fillPro() {
 	    for (Project p: User.projects) {
-		    addRow(new Object[]{String.valueOf(p.proId), p.name, p.description, p.duration, p.budget, p.getChefName(), p.departement});
+		    addRow(new Object[]{String.valueOf(p.proId), p.name, p.description, p.duration, p.budget, p.getChefName(), p.departement, String.valueOf(p.proHasPercentage()).toString() + "%", p.valid});
 	    } 
 	}
 	

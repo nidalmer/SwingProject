@@ -9,7 +9,7 @@ public class SqlConnection {
 	private final String JDBC_CONNECT = "jdbc:sqlite:database.db";
     private final String JDBC_CLASS = "org.sqlite.JDBC";
 	private final String SQL_LOGIN = "SELECT * FROM employee JOIN departement WHERE employee.name=? AND employee.password=? AND employee.departement=departement.id;";
-	private final String SQL_ADDPROJECT = "INSERT INTO project (name, description, duration, budget, departement, chef) VALUES (?, ?, ?, ?, ?, ?)";
+	private final String SQL_ADDPROJECT = "INSERT INTO project (name, description, duration, budget, departement, chef, valid) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private final String SQL_EMPOFDEP = "SELECT * FROM employee JOIN departement WHERE employee.departement=departement.id;";
 	private final String SQL_PROOFDEP = "SELECT * FROM project JOIN departement WHERE project.departement=departement.id;";
 	private final String SQL_DEP = "SELECT departement.id, departement.name, employee.name FROM departement JOIN employee WHERE departement.id = employee.departement AND employee.chef = 0;";
@@ -18,8 +18,9 @@ public class SqlConnection {
 	private final String SQL_UPDATETASK = "UPDATE task SET description=?, final_date=?, duration=?, project=?, employee=? WHERE id=?";
 	private final String SQL_DELETETASK = "DELETE FROM task WHERE id=?";
 	private final String SQL_UPDATETASK2 = "UPDATE task SET status=?, comment_nature=?, commentary=? WHERE id=?";
-	private final String SQL_UPDATEPROJECT = "UPDATE project SET name=?, description=?, duration=?, budget=?, departement=?, chef=? WHERE id=?";
+	private final String SQL_UPDATEPROJECT = "UPDATE project SET name=?, description=?, duration=?, budget=?, departement=?, chef=?, valid=? WHERE id=?";
 	private final String SQL_DELETEPROJECT = "DELETE FROM project WHERE id=?";
+	private final String SQL_DELETEDEP = "DELETE FROM departement WHERE id=?";
 	public Connection connection;
 	private PreparedStatement statement;
 	private PreparedStatement addProject_statement;
@@ -33,6 +34,7 @@ public class SqlConnection {
 	private PreparedStatement updateTask2_statement;
 	private PreparedStatement updateProject_statement;
 	private PreparedStatement deleteProject_statement;
+	private PreparedStatement deleteDep_statement;
 	
 	public  SqlConnection() {
 		try {
@@ -84,7 +86,7 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean addProject(String name, String description, String duration, String budget, int chef, int departement) {
+	public boolean addProject(String name, String description, String duration, String budget, int chef, int departement, String valid) {
 		try {
 			addProject_statement = connection.prepareStatement(SQL_ADDPROJECT);
 			addProject_statement.setString(1, name);
@@ -93,6 +95,11 @@ public class SqlConnection {
 			addProject_statement.setString(4, budget);
 			addProject_statement.setInt(5, departement);
 			addProject_statement.setInt(6, chef);
+			if (valid.equals("Approved")) {
+				addProject_statement.setInt(7, 0);
+			} else {
+				addProject_statement.setInt(7, 1);
+			}
 			
 			int res = addProject_statement.executeUpdate();
 			if ( res != 0 ) {
@@ -159,7 +166,7 @@ public class SqlConnection {
 			ResultSet res = fetchPro_statement.executeQuery();
 			ArrayList<Project> list = new ArrayList<Project>();
 			while (res.next()){
-				Project p = new Project(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getInt(7), res.getInt(8), res.getString(9));
+				Project p = new Project(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getInt(7), res.getInt(9), res.getString(10), (res.getInt(8) != 1));
 				if (User.director) {
 					list.add(p);
 				} else if (User.chef && p.departementId == User.departementId) {
@@ -258,7 +265,7 @@ public class SqlConnection {
 		return false;				
 	}
 	
-	public boolean updateProject(String name, String description, String duration, String budget, int chef, int departement, int id) {
+	public boolean updateProject(String name, String description, String duration, String budget, int chef, int departement, String valid, int id) {
 		try {
 			updateProject_statement = connection.prepareStatement(SQL_UPDATEPROJECT);
 			updateProject_statement.setString(1, name);
@@ -267,7 +274,12 @@ public class SqlConnection {
 			updateProject_statement.setString(4, budget);
 			updateProject_statement.setInt(5, departement);
 			updateProject_statement.setInt(6, chef);
-			updateProject_statement.setInt(7, id);
+			if (valid.equals("Approved")) {
+				updateProject_statement.setInt(7, 0);
+			} else {
+				updateProject_statement.setInt(7, 1);
+			}
+			updateProject_statement.setInt(8, id);
 			
 			int res = updateProject_statement.executeUpdate();
 			if ( res != 0 ) {
@@ -306,6 +318,23 @@ public class SqlConnection {
 			int res = deleteTask_statement.executeUpdate();
 			if ( res != 0 ) {
 				deleteTask_statement.close();
+				return true;
+			} 
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace(System.out);
+		}
+		return false;				
+	}
+	
+	public boolean deleteDep(int id) {
+		try {
+			deleteDep_statement = connection.prepareStatement(SQL_DELETEDEP);
+			deleteDep_statement.setInt(1, id);
+			
+			int res = deleteDep_statement.executeUpdate();
+			if ( res != 0 ) {
+				deleteDep_statement.close();
 				return true;
 			} 
 		} catch (Exception e) {

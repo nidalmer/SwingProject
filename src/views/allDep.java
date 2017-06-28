@@ -18,6 +18,7 @@ public class allDep {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					allDep window = new allDep();
@@ -37,12 +38,12 @@ public class allDep {
 	 */
 	private void initialize(){
 		frame = new JFrame();
-		frame.setBounds(100, 100, 530, 466);
+		frame.setBounds(100, 100, 649, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 514, 427);
+		panel.setBounds(0, 0, 633, 461);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -83,24 +84,24 @@ public class allDep {
 		
 		JButton logout_button = new JButton("");
 		logout_button.addActionListener(new Connect());
-		logout_button.setBounds(479, 0, 35, 29);
+		logout_button.setBounds(600, 0, 35, 29);
 		panel.add(logout_button);
 		logout_button.setIcon(new ImageIcon(MainMenu.class.getResource("/images/logout.png")));
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(173, 216, 230));
-		panel_1.setBounds(0, 0, 514, 29);
+		panel_1.setBounds(0, 0, 633, 29);
 		panel.add(panel_1);
 		
 		JLabel Title = new JLabel("");
 		Title.setIcon(new ImageIcon(allDep.class.getResource("/images/dep.png")));
-		Title.setBounds(58, 38, 401, 59);
+		Title.setBounds(122, 38, 401, 59);
 		panel.add(Title);
 		Title.setHorizontalAlignment(SwingConstants.CENTER);
 		Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 30, 514, 397);
+		panel_2.setBounds(0, 30, 633, 431);
 		frame.getContentPane().add(panel_2);
 
 		JTextField idField = new JTextField(15);
@@ -115,7 +116,7 @@ public class allDep {
 		table = new JTable(model);
 		table.addMouseListener(new DepControl(table, idField));
 		JScrollPane scroller = new JScrollPane(table);
-		scroller.setBounds(38, 108, 436, 255);
+		scroller.setBounds(38, 108, 558, 286);
 		panel.add(scroller);
 		
 	    model.addColumn("ID"); 
@@ -124,8 +125,8 @@ public class allDep {
 	    model.fillDep();
 	    
 		JButton task_button = new JButton("Tasks");
-		task_button.setIcon(null);
-		task_button.setBounds(384, 374, 75, 28);
+		task_button.setIcon(new ImageIcon(allDep.class.getResource("/images/tasks.png")));
+		task_button.setBounds(395, 405, 105, 45);
 		task_button.setBackground(new Color(135, 206, 235));
 		task_button.setForeground(new Color(0, 0, 0));
 		task_button.setFocusPainted(false);
@@ -135,8 +136,8 @@ public class allDep {
 		task_button.addActionListener(new DepControl(idField));
 		
 		JButton project_button = new JButton("Projects");
-		project_button.setIcon(null);
-		project_button.setBounds(142, 374, 100, 28);
+		project_button.setIcon(new ImageIcon(allDep.class.getResource("/images/projects.png")));
+		project_button.setBounds(130, 405, 115, 45);
 		project_button.setBackground(new Color(135, 206, 235));
 		project_button.setForeground(new Color(0, 0, 0));
 		project_button.setFocusPainted(false);
@@ -146,8 +147,8 @@ public class allDep {
 		project_button.addActionListener(new DepControl(idField));
 		
 		JButton employee_button = new JButton("Employees");
-		employee_button.setIcon(null);
-		employee_button.setBounds(252, 374, 122, 28);
+		employee_button.setIcon(new ImageIcon(allDep.class.getResource("/images/employee.png")));
+		employee_button.setBounds(250, 405, 140, 45);
 		employee_button.setBackground(new Color(135, 206, 235));
 		employee_button.setForeground(new Color(0, 0, 0));
 		employee_button.setFocusPainted(false);
@@ -157,7 +158,8 @@ public class allDep {
 		employee_button.addActionListener(new DepControl(idField));
 		
 		JButton back_button = new JButton("Back");
-		back_button.setBounds(58, 374, 75, 28);
+		back_button.setIcon(new ImageIcon(allDep.class.getResource("/images/back.png")));
+		back_button.setBounds(25, 405, 100, 45);
 		panel.add(back_button);
 		back_button.setBackground(new Color(135, 206, 235));
 		back_button.setForeground(new Color(0, 0, 0));
@@ -165,10 +167,24 @@ public class allDep {
 		back_button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		back_button.setFont(new Font("Segoe UI Light", Font.BOLD, 14));
 		back_button.addActionListener(new BackMenu());
+		
+		JButton delete_button = new JButton("Delete");
+		delete_button.setIcon(new ImageIcon(allDep.class.getResource("/images/delete.png")));
+		delete_button.setForeground(Color.BLACK);
+		delete_button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		delete_button.setFocusPainted(false);
+		delete_button.setBackground(new Color(135, 206, 235));
+		delete_button.setBounds(505, 405, 105, 45);
+		panel.add(delete_button);
+		delete_button.addActionListener(new DepControl(idField));
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(allPro.class.getResource("/images/bg.png")));
-		label.setBounds(0, 29, 514, 398);
+		label.setBounds(0, 29, 633, 431);
 		panel.add(label);
+		
+		if(!User.director) {
+			delete_button.setEnabled(false);
+		}
 	}
 }
