@@ -190,11 +190,12 @@ public class SqlConnection {
 			ArrayList<Departement> list = new ArrayList<Departement>();
 			while (res.next()){
 				Departement d = new Departement(res.getInt(1), res.getString(2), res.getString(3));
-				if (User.director) {
-					list.add(d);
-				}
+				list.add(d);
 			}
 			User.departements = list;
+			for (Departement d: User.departements) {
+				System.out.println(d.chef);
+			}
 			if (res.next()) {
 				return true;
 			}

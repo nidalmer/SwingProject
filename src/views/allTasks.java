@@ -178,9 +178,16 @@ public class allTasks {
 		panel.add(lblpro);
 		
 		JComboBox<String> proField = new JComboBox<String>();
-		for (Project p: User.projects) {
-			proField.addItem(p.name);
+		if(!User.chef && !User.director) {
+			 for (Task t: User.tasks) {
+				 proField.addItem(t.project);
+			 }
+		} else {
+				for (Project p: User.projects) {
+				proField.addItem(p.name);
+			}
 		}
+		
 		proField.setForeground(Color.BLACK);
 		proField.setBounds(162, 228, 199, 20);
 		panel.add(proField);
@@ -192,9 +199,16 @@ public class allTasks {
 		panel.add(lblemp);
 		
 		JComboBox<String> empField = new JComboBox<String>();
-		for (Employee e: User.employees) {
-			empField.addItem(e.username);
+		if(!User.chef && !User.director) {
+			 for (Departement d: User.departements) {
+				 empField.addItem(d.chef);
+			 }
+		} else {
+			for (Employee e: User.employees) {
+				empField.addItem(e.username);
+			}
 		}
+		
 		empField.setForeground(Color.BLACK);
 		empField.setBounds(162, 259, 199, 20);
 		panel.add(empField);
